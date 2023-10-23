@@ -4,7 +4,7 @@ import { GitObject } from "./gitObject"
 import { GitObjectReader } from './gitObjectReader'
 import { Path } from './path'
 
-export class GitObjectFile {
+export class GitObjectCompressed {
     compressed: Buffer
     sha: string
 

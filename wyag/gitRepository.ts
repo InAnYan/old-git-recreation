@@ -1,6 +1,6 @@
 import { Path } from './path'
 import { GitObject } from './gitObject'
-import { GitObjectFile } from './gitObjectFile'
+import { GitObjectCompressed } from './gitObjectCompressed'
 import { repositoryDefaultConfig } from './repositoryDefaultConfig'
 
 export class GitRepository {
@@ -49,14 +49,14 @@ export class GitRepository {
     retrieveObject(sha: string): GitObject {
         let path = this.makeGitPath('objects', sha.slice(0, 2), sha.slice(2))
         let file = path.readFile()
-        return GitObjectFile.fromBufferToObject(file)
+        return GitObjectCompressed.fromBufferToObject(file)
     }
 
     storeObject(obj: GitObject) {
-        this.storeObjectFile(new GitObjectFile(obj))
+        this.storeCompressedObject(new GitObjectCompressed(obj))
     }
 
-    storeObjectFile(objFile: GitObjectFile) {
+    storeCompressedObject(objFile: GitObjectCompressed) {
         let objDirPath = this.makeGitPath('objects', objFile.sha.slice(0, 2))
         objDirPath.makeDirectories()
 

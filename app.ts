@@ -2,7 +2,7 @@ import { Command, Option } from 'commander'
 import { GitRepository } from './wyag/gitRepository'
 import { GitObjectReader } from './wyag/gitObjectReader'
 import { Path } from './wyag/path'
-import { GitObjectFile } from './wyag/gitObjectFile'
+import { GitObjectCompressed } from './wyag/gitObjectCompressed'
 import { gitTypeStrings } from './wyag/gitType'
 
 const program = new Command()
@@ -37,11 +37,11 @@ program.command('hash-object')
     .action((filePath, options) => {
         let file = new Path(filePath).readFile()
         let obj = GitObjectReader.fromSource(file, options.type)
-        let objFile = new GitObjectFile(obj)
+        let objFile = new GitObjectCompressed(obj)
         console.log(objFile.sha)
 
         if (options.write) {
-            GitRepository.find().storeObjectFile(objFile)
+            GitRepository.find().storeCompressedObject(objFile)
         }
     })
 
