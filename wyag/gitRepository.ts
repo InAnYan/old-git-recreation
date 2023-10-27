@@ -7,7 +7,7 @@ export class GitRepository {
     workTree: Path
 
     static createNew(path: Path): GitRepository {
-        if (isGitWorkDir(path)) {
+        if (GitRepository.isWorkDir(path)) {
             throw new Error('Git repository already exists.')
         }
 
@@ -29,7 +29,7 @@ export class GitRepository {
     static find(path: Path = new Path('.')): GitRepository {
         let realPath = path.getRealPath()
 
-        if (isGitWorkDir(realPath)) {
+        if (GitRepository.isWorkDir(realPath)) {
             return new GitRepository(path)
         }
 
@@ -75,9 +75,9 @@ export class GitRepository {
     gitDir(): Path {
         return this.workTree.append('.git')
     }
-}
 
-function isGitWorkDir(path: Path): boolean {
-    let gitPath = path.append('.git')
-    return gitPath.isExists() && gitPath.isDirectory()
+    static isWorkDir(path: Path): boolean {
+        let gitPath = path.append('.git')
+        return gitPath.isExists() && gitPath.isDirectory()
+    }
 }
